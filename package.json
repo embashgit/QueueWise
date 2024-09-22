@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
   "name": "queuewise",
-=======
-  "name": "queue-wise-app",
->>>>>>> 7f1fd9ea34804fd5dee4b1eec33474ea8a8f3a4b
   "version": "0.1.0",
   "private": true,
   "scripts": {
