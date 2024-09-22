@@ -1,0 +1,18 @@
+/* styles/fonts.css */
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/fonts/DM_Sans/static/DMSans-Regular.ttf") format("truetype");
+  src: url("/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf");
+  font-weight: 500;
+  font-style: normal;
+  /* Add other font formats as needed */
+}
+
+@font-face {
+  font-family: "DM Sans Light";
+  src: url("/fonts/DM_Sans/static/DMSans_18pt-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  /* Add other font formats as needed */
+}

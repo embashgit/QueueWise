@@ -1,0 +1,40 @@
+//* https://angel-rs.github.io/css-color-filter-generator/
+
+.icon--muted {
+  // #bababa
+  filter: brightness(0) saturate(100%) invert(65%) sepia(76%) saturate(0%)
+    hue-rotate(228deg) brightness(99%) contrast(91%);
+}
+
+.icon--gray-trust {
+  // #626262
+  filter: invert(40%) sepia(13%) saturate(0%) hue-rotate(233deg) brightness(90%)
+    contrast(88%);
+}
+
+.icon--white {
+  //#ffffff
+  filter: brightness(0) saturate(100%) invert(100%) sepia(45%) saturate(0%)
+    hue-rotate(60deg) brightness(103%) contrast(101%);
+}
+
+.icon--yellow {
+  // #FCF5E3
+  filter: brightness(0) saturate(100%) invert(94%) sepia(17%) saturate(501%)
+    hue-rotate(314deg) brightness(106%) contrast(98%);
+}
+
+.icon--primary {
+  filter: brightness(0) saturate(100%) invert(75%) sepia(59%) saturate(902%)
+    hue-rotate(166deg) brightness(99%) contrast(99%);
+}
+
+.icon--red-trust {
+  filter: brightness(100%) saturate(100%) invert(10%) sepia(90%) saturate(600%)
+    hue-rotate(0deg) brightness(100%) contrast(100%);
+}
+
+.icon--blue-trust {
+  filter: brightness(0) saturate(100%) invert(47%) sepia(52%) saturate(3792%)
+    hue-rotate(188deg) brightness(95%) contrast(103%);
+}
