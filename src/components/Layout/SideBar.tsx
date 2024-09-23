@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import {
   HomeIcon,
   ClipboardListIcon,
-  ClockIcon,
+  MenuAlt4Icon,
   CogIcon,
   ChevronLeftIcon,
   LogoutIcon,
@@ -23,8 +23,8 @@ const QueueSidebar: React.FC<QueueSidebarProps> = ({ isCollapsed, toggleSidebar 
   const navItems = [
     { name: 'Home', href: '/', icon: HomeIcon },
     { name: 'Joined Queues', href: '/joined', icon: ClipboardListIcon },
-    { name: 'Queue History', href: '/dashboard/history', icon: ClockIcon },
-    { name: 'Queue Settings', href: '/dashboard/settings', icon: CogIcon },
+    { name: 'Queue Control', href: '/[queueId]/control', icon: MenuAlt4Icon },
+    { name: 'Queue Settings', href: '/settings', icon: CogIcon },
     { name: 'Logout', href: '/logout', icon: LogoutIcon },
   ];
 
