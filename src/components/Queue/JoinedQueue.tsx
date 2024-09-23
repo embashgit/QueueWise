@@ -7,36 +7,30 @@ import GenericInput from '../Form/Input';
 import { findQueue } from '../../../utils/helpers/queueFinder';
 import AnimationWrapper from '../Animations/FlyInWrapper';
 
-const Dashboard: React.FC = () => {
+const JoinedQueue: React.FC = () => {
     const [queuesWithColor, setQueuesWithColor] = useState<(Queue & { tintColor: string })[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
-    const { fetchQueues,joinQueue,joinedQueues,leaveQueue, queues } = useAuth();
+    const { joinedQueues,leaveQueue } = useAuth();
 
     useEffect(() => {
-        fetchQueues();  // Fetch queues when the component mounts
-    }, []);
-
-    useEffect(() => {
-        if (queues.length > 0) {
-            const queuesWithColors = queues.map((queue) => ({
+        if (joinedQueues.length > 0) {
+            const queuesWithColors = joinedQueues.map((queue) => ({
                 ...queue,
                 tintColor: generateRandomColor(),
             }));
             setQueuesWithColor(queuesWithColors);
         }
-    }, [queues]);
+    }, [joinedQueues]);
 
-    const handleJoinQueue = async(id: string) => {
-        if (!findQueue(joinedQueues,id)) {
-          await joinQueue(id);
-        }
-    };
 
     const handleLeaveQueue = async(id: string) => {
       if (findQueue(joinedQueues,id)) {
         await leaveQueue(id);
+
       }
     };
+
+    const handleJoinQueue = async() => {}
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value); // Update search query state
@@ -60,11 +54,11 @@ const Dashboard: React.FC = () => {
                     handleChange={handleSearchChange} // Handle search input change
                 />
             </div>
-            <h2 className="text-xl my-3 font-semibold">Available Queues</h2>
+            <h2 className="text-xl my-3 font-semibold">Joined Queues</h2>
             <AnimationWrapper>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {filteredQueues.length > 0 ? filteredQueues.map(({ tintColor, ...rest }) => (
+                { filteredQueues.map(({ tintColor, ...rest }) => (
                     <QueueCard
                         key={rest.id}
                         queue={rest}
@@ -73,30 +67,14 @@ const Dashboard: React.FC = () => {
                         onLeave={handleLeaveQueue}
                         tintColor={tintColor}
                     />
-                )) : (<div>No Queue Available</div>)}
+                ))}
             </div>
+            {!(filteredQueues.length > 0) && (<div className='w-full justify-center items-center mx-auto'>
+                <h3 className='text-center text-gray-600'>You Have not joined any Queue</h3>
+            </div>)}
             </AnimationWrapper>
-
-            {/* <h2 className="text-xl font-semibold mt-8 mb-4">Joined Queues</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {filteredQueues.length > 0 ? filteredQueues
-                    .filter((queue) => joinedQueues.includes(queue.id))
-                    .map((queue) => (
-                        <QueueCard
-                            queue={queue}
-                            key={queue.id}
-                            isJoined={joinedQueues.includes(queue.id)}
-                            onJoin={handleJoinQueue}
-                            onLeave={handleLeaveQueue}
-                            tintColor={queue?.tintColor}
-                        />
-                    )) : <div></div>}
-                {joinedQueues.length === 0 && (
-                    <p className="text-gray-500">You have not joined any queues yet.</p>
-                )}
-            </div> */}
         </div>
     );
 };
 
-export default Dashboard;
+export default JoinedQueue;

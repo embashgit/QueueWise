@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import apiClient from '../../utils/apiClient';
 import { useRouter } from 'next/router';
 import  { jwtDecode, JwtPayload } from 'jwt-decode';
-import { AuthContextProps, User } from './interface';
+import { AuthContextProps, QueueCreate, User } from './interface';
 import Cookies from 'js-cookie';
 import { Queue } from '@/components/Queue/interface';
 
@@ -11,6 +11,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [joinedQueues, setJoinedQueues] = useState<Queue[]| []>([]);
   const [queues, setQueues] = useState<Queue[] | []>([]); 
   const router = useRouter();
 
@@ -49,10 +50,56 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, []);
 
+
+  useEffect(()=>{
+    fetchJoinedQueue()
+  },[])
+
   const fetchQueues = async () => {
     try {
       const response = await apiClient.get('/queues');  // Assuming '/queues' is your endpoint
       setQueues(response.data);
+     
+    } catch (error) {
+      console.error('Failed to fetch queues:', error);
+    }
+  };
+
+  const createQueue = async (payload: QueueCreate) => {
+    try {
+     await apiClient.post('/queues',payload);  
+      await fetchQueues();
+     
+    } catch (error) {
+      console.error('Failed to fetch queues:', error);
+    }
+  };
+  const fetchJoinedQueue = async () => {
+    try {
+    const res = await apiClient.get('/queues/joined');  
+     setJoinedQueues(res.data.allJoinedQueue
+     )
+    } catch (error) {
+      console.error('Failed to fetch queues:', error);
+    }
+  };
+
+  const joinQueue = async (qId: string) => {
+    try {
+     await apiClient.post(`/queues/${qId}/join`);
+     await fetchQueues();
+      await fetchJoinedQueue();
+     
+    } catch (error) {
+      console.error('Failed to fetch queues:', error);
+    }
+  };
+
+  const leaveQueue = async (qId: string) => {
+    try {
+     await apiClient.delete(`/queues/${qId}/leave`);  
+     await fetchQueues();
+     await fetchJoinedQueue();
      
     } catch (error) {
       console.error('Failed to fetch queues:', error);
@@ -92,7 +139,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   return (
     <AuthContext.Provider
-      value={{ user, fetchQueues, isAuthenticated: !!user, signup, login, logout, queues }}
+      value={{leaveQueue,joinQueue, joinedQueues, user, fetchQueues, createQueue, isAuthenticated: !!user, signup, login, logout, queues }}
     >
       {children}
     </AuthContext.Provider>

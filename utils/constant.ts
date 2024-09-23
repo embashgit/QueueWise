@@ -1,14 +1,10 @@
 export const navItems= [
     {
-        name: 'Home',
+        name: 'Queues',
         url: '/',
         icon: 'dashboard'
     },
-    {
-        name: 'Queues',
-        url: '/queues',
-        icon: 'payment'
-    },
+
     {
         name: 'Leave Queue',
         url: '/leave',
@@ -32,11 +28,6 @@ export const HeaderActions = [
     url: '/notifications',
     icon: 'bell',
 },
-{
-    name: 'Add Queue',
-    url: '/add',
-    icon: 'plus',
-}
 ]
 
 // src/data/sampleQueues.ts

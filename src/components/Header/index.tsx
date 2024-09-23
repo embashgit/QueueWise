@@ -1,6 +1,9 @@
 import React from 'react';
 import Icon from '../Icon';
 import { HeaderActions, navItems } from '../../../utils/constant';
+import { useRouter } from 'next/router';
+import CreateQueue from '../Queue/CreateQueue';
+import { useAuth } from '@/Provider/AuthContext';
 
 
 interface HeaderProps {
@@ -8,12 +11,14 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ type }) => {
+  const {user} = useAuth()
+  const route = useRouter() 
   const navLinks = [...navItems.slice(0, -2)];
 
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef4] px-10 py-3">
       {/* Logo Section */}
-      <div className="flex items-center gap-4 text-[#0d151c]">
+      <div className="flex items-center bg-white gap-4 text-[#0d151c]">
         <div className="size-4">
           <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clipPath="url(#clip0_6_319)">
@@ -72,14 +77,16 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
           {/* Optionally render HeaderActions for auth type */}
           {type === 'auth' && (
             <>
-              {HeaderActions.map(({ icon, name }, index) => (
+              {HeaderActions.map(({ icon, name, url }, index) => (
                 <button
                   key={index}
+                  onClick={()=>route.push(url)}
                   className="flex items-center justify-center rounded-xl h-10 bg-[#e7eef4] text-[#0d151c] gap-2 text-sm font-bold leading-normal px-4"
                 >
                   <Icon name={icon} alt={name} alt={icon} />
                 </button>
               ))}
+             {user?.role ==='admin' && <CreateQueue/>}
             </>
           )}
         </div>

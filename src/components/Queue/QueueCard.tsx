@@ -1,7 +1,7 @@
 // src/components/QueueCard.tsx
 import React from 'react';
 
-import { ClockIcon } from '@heroicons/react/solid';
+import { ClockIcon, UsersIcon } from '@heroicons/react/solid';
 import { Queue } from './interface';
 
 interface QueueCardProps {
@@ -16,7 +16,7 @@ const QueueCard: React.FC<QueueCardProps> = ({ queue, isJoined, onJoin, onLeave,
     const progressPercentage = (queue.userCount / queue.queueLength) * 100;
 
   return (
-    <div style={{borderColor:tintColor}} className="flex flex-col bg-white shadow rounded-lg overflow-hidden border-l-4">
+    <div style={{borderColor:tintColor}} className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden border-l-4 ">
       {/* Queue Details */}
       <div className="flex-1 p-4">
         <div className="flex items-center mb-2">
@@ -25,7 +25,10 @@ const QueueCard: React.FC<QueueCardProps> = ({ queue, isJoined, onJoin, onLeave,
         <div className="mb-4">
           <div className="flex items-center justify-between text-gray-600">
             <p>Total people allowed: {queue.queueLength}</p>
-            <p>Waiting people: {queue.userCount}</p>
+            <div className='flex items-center text-gray-600'>
+            <UsersIcon className="h-5 w-5 mr-2"/>
+            <p>{queue.userCount}</p>
+            </div>
           </div>
           {/* Progress Bar */}
           <div className="relative h-2 bg-gray-200 rounded-full mt-2">
@@ -41,12 +44,12 @@ const QueueCard: React.FC<QueueCardProps> = ({ queue, isJoined, onJoin, onLeave,
         <div className='flex flex-row items-center justify-between'>
         <div className="flex items-center text-gray-600 mt-4">
           <ClockIcon className="h-5 w-5 mr-2" />
-          <p>Estimated wait time: {queue.estimatedWaitTime * queue.userCount}</p>
+          <p>Estimated wait time: {queue.estimatedWaitTime * queue.userCount} min</p>
         </div>
         <div>
         {isJoined ? (
           <button
-            className="w-full bg-red-500 text-white px-4 py-2 rounded"
+            className="w-full bg-red-500 text-white px-4 py-2 rounded rounded-full"
             onClick={() => onLeave(queue.id)}
           >
             Leave Queue
