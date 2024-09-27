@@ -28,7 +28,7 @@ const GenericInput = React.forwardRef<HTMLInputElement, GenericInputProps>(
   ) => {
     const [isVisible, setVisible] = useState(false);
     const inputId = inputProps.id || inputProps.name;
-    const [focused, setFocused] = React.useState(false);
+    const [, setFocused] = React.useState(false);
     const onFocus = () => setFocused(true);
     const onBlur = () => setFocused(false);
 

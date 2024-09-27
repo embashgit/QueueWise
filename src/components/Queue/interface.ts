@@ -10,3 +10,19 @@ export interface Queue {
     updatedAt: string;
   }
   
+
+
+export interface UserCardProps {
+  name: string;
+  registrationDate: string;
+  avatarUrl: string;
+}
+
+
+export interface User {
+  position: number;
+  name: string;
+  email: string;
+  joinTime: string;
+  avatarUrl: string;
+}

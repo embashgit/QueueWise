@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import QueueCard from '@/components/Queue/QueueCard';
-import { useAuth } from '@/Provider/AuthContext';
+import { useAuth } from '@/components/Provider/AuthContext';
 import { generateRandomColor } from '../../../utils/randomColor';
-import { Queue } from '../Queue/interface';
+import { Queue } from '@/components/Queue/interface';
 import GenericInput from '../Form/Input';
 import { findQueue } from '../../../utils/helpers/queueFinder';
-import AnimationWrapper from '../Animations/FlyInWrapper';
+import AnimationWrapper from '@/components/Animations/FlyInWrapper';
 
+import { useBreadcrumb } from '@/components/Provider/BreadCrumbContext';
+import { useRouter } from 'next/router';
 const Dashboard: React.FC = () => {
+  const location = useRouter();
+  const { addBreadcrumb } = useBreadcrumb();
     const [queuesWithColor, setQueuesWithColor] = useState<(Queue & { tintColor: string })[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
-    const { fetchQueues,joinQueue,joinedQueues,leaveQueue, queues } = useAuth();
+    const { fetchQueues,joinQueue,joinedQueues,leaveQueue,removeQueue, queues } = useAuth();
 
     useEffect(() => {
         fetchQueues();  // Fetch queues when the component mounts
     }, []);
+
+    useEffect(() => {
+      return addBreadcrumb('Home');
+  }, [location.pathname, addBreadcrumb, location.asPath]);
 
     useEffect(() => {
         if (queues.length > 0) {
@@ -28,17 +36,20 @@ const Dashboard: React.FC = () => {
 
     const handleJoinQueue = async(id: string) => {
         if (!findQueue(joinedQueues,id)) {
-          await joinQueue(id);
+          joinQueue(id);
         }
     };
+    const handleDeleteQueue = async(id: string) => {
+        removeQueue(id);
+    }
 
     const handleLeaveQueue = async(id: string) => {
       if (findQueue(joinedQueues,id)) {
-        await leaveQueue(id);
+        leaveQueue(id);
       }
     };
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setSearchQuery(e.target.value); // Update search query state
     };
 
@@ -72,29 +83,11 @@ const Dashboard: React.FC = () => {
                         onJoin={handleJoinQueue}
                         onLeave={handleLeaveQueue}
                         tintColor={tintColor}
+                        onDeleteQueue={handleDeleteQueue}
                     />
                 )) : (<div>No Queue Available</div>)}
             </div>
             </AnimationWrapper>
-
-            {/* <h2 className="text-xl font-semibold mt-8 mb-4">Joined Queues</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {filteredQueues.length > 0 ? filteredQueues
-                    .filter((queue) => joinedQueues.includes(queue.id))
-                    .map((queue) => (
-                        <QueueCard
-                            queue={queue}
-                            key={queue.id}
-                            isJoined={joinedQueues.includes(queue.id)}
-                            onJoin={handleJoinQueue}
-                            onLeave={handleLeaveQueue}
-                            tintColor={queue?.tintColor}
-                        />
-                    )) : <div></div>}
-                {joinedQueues.length === 0 && (
-                    <p className="text-gray-500">You have not joined any queues yet.</p>
-                )}
-            </div> */}
         </div>
     );
 };

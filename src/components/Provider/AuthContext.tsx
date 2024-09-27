@@ -1,17 +1,20 @@
 // src/context/authContext.tsx
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import apiClient from '../../utils/apiClient';
+import apiClient from '../../../utils/apiClient';
 import { useRouter } from 'next/router';
 import  { jwtDecode, JwtPayload } from 'jwt-decode';
-import { AuthContextProps, QueueCreate, User } from './interface';
+import { AuthContextProps, QueueCreate, User, IError } from './interface';
 import Cookies from 'js-cookie';
 import { Queue } from '@/components/Queue/interface';
+import Modal from '@/components/Modal';
+import { Button } from '@/components/Buttons';
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [joinedQueues, setJoinedQueues] = useState<Queue[]| []>([]);
+  const [requestError, setRequestError] = useState<string>('')
   const [queues, setQueues] = useState<Queue[] | []>([]); 
   const router = useRouter();
 
@@ -61,6 +64,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setQueues(response.data);
      
     } catch (error) {
+       // Check if error has a message property and ensure it's a string
+    const errorMessage  = (error as IError).response.data.message || 'Unable to fetch Queues';
+    setRequestError(errorMessage);
       console.error('Failed to fetch queues:', error);
     }
   };
@@ -71,6 +77,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       await fetchQueues();
      
     } catch (error) {
+      const errorMessage  = (error as IError).response.data.message || 'Unable to Create Queue';
+    setRequestError(errorMessage);
       console.error('Failed to fetch queues:', error);
     }
   };
@@ -80,6 +88,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
      setJoinedQueues(res.data.allJoinedQueue
      )
     } catch (error) {
+      const errorMessage  = (error as IError).response.data.message || 'Unable to fetch Joined Queue';
+      setRequestError(errorMessage);
+      console.error('Failed to fetch queues:', error);
+    }
+  };
+
+  const fetchQueueUsers = async (qId:string) => {
+    try {
+    const res = await apiClient.get(`/queues/${qId}/users`);  
+   return res.data
+    } catch (error) {
+      const errorMessage  = (error as IError).response.data.message || 'Unable to fetch Joined Queue';
+      setRequestError(errorMessage);
       console.error('Failed to fetch queues:', error);
     }
   };
@@ -91,6 +112,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       await fetchJoinedQueue();
      
     } catch (error) {
+      const errorMessage  = (error as IError).response.data.message || 'Unable to join Queue';
+      setRequestError(errorMessage);
       console.error('Failed to fetch queues:', error);
     }
   };
@@ -102,6 +125,24 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
      await fetchJoinedQueue();
      
     } catch (error) {
+      const errorMessage  = (error as IError).response.data.message || 'Unable to leave Queue';
+      setRequestError(errorMessage);
+      console.error('Failed to fetch queues:', error);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setRequestError('');
+  };
+
+  const removeQueue = async (qId: string) => {
+    try {
+     await apiClient.delete(`/queues/${qId}`);  
+     await fetchQueues();
+     await fetchJoinedQueue();
+    } catch (error) {
+      const errorMessage  = (error as IError).response.data.message || 'Unable to remove Queue, Users are on the Queue';
+      setRequestError(errorMessage);
       console.error('Failed to fetch queues:', error);
     }
   };
@@ -139,9 +180,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   return (
     <AuthContext.Provider
-      value={{leaveQueue,joinQueue, joinedQueues, user, fetchQueues, createQueue, isAuthenticated: !!user, signup, login, logout, queues }}
+      value={{leaveQueue,
+        joinQueue,
+        removeQueue, 
+        joinedQueues, 
+        user, 
+        fetchQueues, 
+        createQueue, 
+        fetchQueueUsers,
+        isAuthenticated: !!user, 
+        signup, 
+        login, 
+        logout, 
+        queues }}
     >
       {children}
+      <Modal isOpen={!!requestError} onClose={handleCloseModal}>
+        <div className='flex flex-col space-4 justify-center'>
+        <h3 className='text-base font-semibold text-red-700 mb-3'>Error Occur!</h3>
+        <p className='text-gray-700 mb-2'>
+        {requestError}
+        </p>
+        <Button onClick={handleCloseModal} className="bg-blue-500 text-white py-3  rounded-full mt-2 hover:bg-blue-700 transition">
+          Close
+        </Button>
+        </div>
+      </Modal>
     </AuthContext.Provider>
   );
 };

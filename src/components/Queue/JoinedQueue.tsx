@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import QueueCard from '@/components/Queue/QueueCard';
-import { useAuth } from '@/Provider/AuthContext';
+import { useAuth } from '@/components/Provider/AuthContext';
 import { generateRandomColor } from '../../../utils/randomColor';
 import { Queue } from '../Queue/interface';
 import GenericInput from '../Form/Input';
 import { findQueue } from '../../../utils/helpers/queueFinder';
 import AnimationWrapper from '../Animations/FlyInWrapper';
+import { useBreadcrumb } from '@/components/Provider/BreadCrumbContext';
+import { useRouter } from 'next/router';
 
 const JoinedQueue: React.FC = () => {
+    const router = useRouter()
+    const { addBreadcrumb } = useBreadcrumb();
     const [queuesWithColor, setQueuesWithColor] = useState<(Queue & { tintColor: string })[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>(''); // State for search query
-    const { joinedQueues,leaveQueue } = useAuth();
+    const { joinedQueues,leaveQueue, removeQueue } = useAuth();
 
     useEffect(() => {
         if (joinedQueues.length > 0) {
@@ -22,6 +26,10 @@ const JoinedQueue: React.FC = () => {
         }
     }, [joinedQueues]);
 
+    useEffect(() => {
+        addBreadcrumb(router.asPath);
+    }, [router.pathname, addBreadcrumb, router.asPath]);
+  
 
     const handleLeaveQueue = async(id: string) => {
       if (findQueue(joinedQueues,id)) {
@@ -30,9 +38,13 @@ const JoinedQueue: React.FC = () => {
       }
     };
 
+    const handleDeleteQueue = async(id: string) => {
+        removeQueue(id);
+    }
+
     const handleJoinQueue = async() => {}
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setSearchQuery(e.target.value); // Update search query state
     };
 
@@ -66,7 +78,7 @@ const JoinedQueue: React.FC = () => {
                         onJoin={handleJoinQueue}
                         onLeave={handleLeaveQueue}
                         tintColor={tintColor}
-                    />
+                         onDeleteQueue={handleDeleteQueue}                    />
                 ))}
             </div>
             {!(filteredQueues.length > 0) && (<div className='w-full justify-center items-center mx-auto'>

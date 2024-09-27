@@ -9,7 +9,7 @@ import {
   ChevronLeftIcon,
   LogoutIcon,
 } from '@heroicons/react/solid';
-import { useAuth } from '@/Provider/AuthContext';
+import { useAuth } from '@/components/Provider/AuthContext';
 
 interface QueueSidebarProps {
   isCollapsed: boolean;
@@ -20,11 +20,18 @@ const QueueSidebar: React.FC<QueueSidebarProps> = ({ isCollapsed, toggleSidebar 
   const router = useRouter();
   const { user } = useAuth();
 
+  // Define navigation items for each role
   const navItems = [
     { name: 'Home', href: '/', icon: HomeIcon },
-    { name: 'Joined Queues', href: '/joined', icon: ClipboardListIcon },
-    { name: 'Queue Control', href: '/[queueId]/control', icon: MenuAlt4Icon },
-    { name: 'Queue Settings', href: '/settings', icon: CogIcon },
+    ...(user?.role === 'user'
+      ? [{ name: 'Joined Queues', href: '/joined', icon: ClipboardListIcon }]
+      : []),
+    ...(user?.role === 'admin'
+      ? [
+          { name: 'Queue Control', href: '/[queueId]/control', icon: MenuAlt4Icon },
+          { name: 'Queue Settings', href: '/settings', icon: CogIcon },
+        ]
+      : []),
     { name: 'Logout', href: '/logout', icon: LogoutIcon },
   ];
 
@@ -48,7 +55,7 @@ const QueueSidebar: React.FC<QueueSidebarProps> = ({ isCollapsed, toggleSidebar 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [isCollapsed, toggleSidebar]);
+  }, []);
 
   return (
     <aside
@@ -81,7 +88,7 @@ const QueueSidebar: React.FC<QueueSidebarProps> = ({ isCollapsed, toggleSidebar 
       <nav className="flex-1 px-4 py-9 space-y-6">
         {navItems.map((item) => (
           <Link key={item.name} href={item.href}>
-            <div
+            <div aria-disabled={item.name === 'Queue Control'}
               className={`flex items-center p-4 text-base font-medium rounded-lg transition-colors ${
                 router.pathname === item.href
                   ? 'bg-gray-300 text-black'

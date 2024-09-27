@@ -1,19 +1,24 @@
 // src/components/QueueCard.tsx
 import React from 'react';
 
-import { ClockIcon, UsersIcon } from '@heroicons/react/solid';
+import { ClockIcon, TrashIcon, UsersIcon } from '@heroicons/react/solid';
 import { Queue } from './interface';
-
+import { useAuth } from '@/components/Provider/AuthContext';
+import { Button } from '../Buttons';
+import { useRouter } from 'next/router';
 interface QueueCardProps {
   queue: Queue;
   isJoined: boolean;
   onJoin: (id:string) => void;
   onLeave: (id:string) => void;
+  onDeleteQueue: (id:string) => void;
   tintColor: string;
 }
 
-const QueueCard: React.FC<QueueCardProps> = ({ queue, isJoined, onJoin, onLeave, tintColor }) => {
+const QueueCard: React.FC<QueueCardProps> = ({ queue, isJoined, onJoin, onLeave, tintColor, onDeleteQueue }) => {
     const progressPercentage = (queue.userCount / queue.queueLength) * 100;
+    const {user} = useAuth()
+const router =  useRouter();
 
   return (
     <div style={{borderColor:tintColor}} className="flex flex-col bg-white shadow-lg rounded-lg overflow-hidden border-l-4 ">
@@ -46,7 +51,7 @@ const QueueCard: React.FC<QueueCardProps> = ({ queue, isJoined, onJoin, onLeave,
           <ClockIcon className="h-5 w-5 mr-2" />
           <p>Estimated wait time: {queue.estimatedWaitTime * queue.userCount} min</p>
         </div>
-        <div>
+    {user?.role != 'admin'  &&  <div>
         {isJoined ? (
           <button
             className="w-full bg-red-500 text-white px-4 py-2 rounded rounded-full"
@@ -62,15 +67,23 @@ const QueueCard: React.FC<QueueCardProps> = ({ queue, isJoined, onJoin, onLeave,
             Join Queue
           </button>
         )}
-        </div>
+        </div>}
+        {user?.role === 'admin' && 
+            <TrashIcon  onClick={() => onDeleteQueue(queue.id)} aria-label='Delete' className='h-5 text-red-600'/>
+       }
         </div>
         {/* Estimated Waiting Time */}
      
       </div>
 
       {/* Action Button */}
-      <div className="p-4 bg-gray-50">
+      <div className="p-4 bg-gray-50  w-full flex flex-row space-3">
+        <div className='w-2/3'>
         <p className='text-sm text-gray-600'>{queue.description}</p>
+        </div>
+     {user?.role === 'admin' && <div className='w-1/3 text-right'>
+      <Button onClick={()=>router.push(`${queue.id}/control`)} size={"fit"} className='text-blue-500' variant={"link"}>Control Queue</Button>
+      </div>}
       </div>
     </div>
   );

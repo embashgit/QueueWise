@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import InputField from '@/components/Form/Input';
 import Header from '@/components/Header';
 import AnimationWrapper from '@/components/Animations/FlyInWrapper';
-import { useAuth } from '@/Provider/AuthContext';
+import { useAuth } from '@/components/Provider/AuthContext';
 import { useRouter } from 'next/router';
 import { Button } from '../Buttons';
+import Link from 'next/link';
 
 const SignUpForm: React.FC = () => {
   const { signup } = useAuth();
@@ -31,9 +32,7 @@ const SignUpForm: React.FC = () => {
     try {
       await signup(email, password, profileName);
       router.push('/'); // Redirect to home or dashboard after signup
-    } catch (err) {
-      setError('Failed to create an account. Please try again.');
-    } finally {
+    }finally {
       setIsLoading(false);
     }
   };
@@ -52,9 +51,9 @@ const SignUpForm: React.FC = () => {
               <div className="text-center mb-8">
                 <p className="text-gray-500 text-sm">
                   Already have an account?{' '}
-                  <a href="/login" className="text-blue-500 font-semibold">
+                  <Link href="/login" className="text-blue-500 font-semibold">
                     Log in
-                  </a>
+                  </Link>
                 </p>
                 <h1 className="text-3xl font-bold text-gray-900 mt-2">
                   Create an account

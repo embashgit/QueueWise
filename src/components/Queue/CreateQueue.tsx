@@ -3,7 +3,7 @@ import Modal from '../Modal'; // Ensure this path is correct based on your proje
 import InputField from '@/components/Form/Input'; // Importing InputField component
 import { Button } from '../Buttons';
 import Icon from '@/components/Icon'; // Import the Icon component
-import { useAuth } from '@/Provider/AuthContext';
+import { useAuth } from '@/components/Provider/AuthContext';
 
 const CreateQueue: React.FC = () => {
     const {user,createQueue } = useAuth()
@@ -11,7 +11,7 @@ const CreateQueue: React.FC = () => {
   const [description, setDescription] = useState('');
   const [errmorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [queueLength, setQueueLength] = useState<number | ''>('');
+  const [queueLength, setQueueLength] = useState<number | string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = async(e: React.FormEvent) => {

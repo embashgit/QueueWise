@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer/Footer';
 import QueueSidebar from '@/components/Layout/SideBar'; // Import the QueueSidebar
+import Breadcrumb from './BreadCrumb';
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -31,6 +32,8 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {/* Header */}
         <div className="sticky top-0 left-0 bg-white right-0 h-16 text-black z-20">
           <Header type="auth" />
+        <Breadcrumb />
+
         </div>
 
         {/* Main content (scrollable) */}

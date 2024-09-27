@@ -15,6 +15,11 @@ onClear?: (_e?: FormEvent<HTMLButtonElement>) => void;
 inputClass?: string;
 containerClassName?: string;
 // eslint-disable-next-line no-unused-vars
-handleChange?: (e: ChangeEvent<HTMLInputElement | any>) => void;
+handleChange?: (e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => void;
 error?: string;
 }
+
+export interface FilterTabsProps {
+    selectedFilter: string;
+    onFilterChange: (filter: string) => void;
+  }

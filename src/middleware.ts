@@ -25,6 +25,7 @@ export function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/login', req.url));
       }
     } catch (error) {
+      console.log(error)
       // If token is invalid or decoding fails, redirect to login
       return NextResponse.redirect(new URL('/login', req.url));
     }

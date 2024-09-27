@@ -29,32 +29,49 @@ export const HeaderActions = [
     icon: 'bell',
 },
 ]
+  
 
-// src/data/sampleQueues.ts
-export const sampleQueues = [
+import { format } from 'date-fns';
+
+
+// Sample Queue History Data
+const queueHistory = [
     {
-      id: '1',
-      name: 'Bank Queue',
-      totalPeople: 50,
-      waitingPeople: 10,
-      waitingTime: '30 mins',
-      tintColor: 'blue',
+      name: 'Chris Cooper',
+      email: 'chriscooper@gmail.com',
+      joinTime: format(new Date('2024-09-24T09:00:00Z'), 'dd MMM yyyy, h:mm a'),
+      leaveTime: format(new Date('2024-09-24T09:30:00Z'), 'dd MMM yyyy, h:mm a'),
     },
     {
-      id: '2',
-      name: 'Doctor Appointment',
-      totalPeople: 30,
-      waitingPeople: 5,
-      waitingTime: '15 mins',
-      tintColor: '#463E3F',
+      name: 'Ramat Sa’ad',
+      email: 'ramatsaad@gmail.com',
+      joinTime: format(new Date('2024-09-24T09:45:00Z'), 'dd MMM yyyy, h:mm a'),
+      leaveTime: format(new Date('2024-09-24T10:15:00Z'), 'dd MMM yyyy, h:mm a'),
     },
     {
-      id: '3',
-      name: 'Restaurant Queue',
-      totalPeople: 20,
-      waitingPeople: 3,
-      waitingTime: '10 mins',
-      tintColor: '#02333D',
+      name: 'Afolabi Micheal',
+      email: 'afolabimicheal@gmail.com',
+      joinTime: format(new Date('2024-09-24T10:20:00Z'), 'dd MMM yyyy, h:mm a'),
+      leaveTime: format(new Date('2024-09-24T10:50:00Z'), 'dd MMM yyyy, h:mm a'),
+    },
+    {
+      name: 'Anthony Rita',
+      email: 'anthonyrita@gmail.com',
+      joinTime: format(new Date('2024-09-24T11:00:00Z'), 'dd MMM yyyy, h:mm a'),
+      leaveTime: format(new Date('2024-09-24T11:30:00Z'), 'dd MMM yyyy, h:mm a'),
+    },
+    {
+      name: 'Makinde Opeyemi',
+      email: 'makindeopeyemi@gmail.com',
+      joinTime: format(new Date('2024-09-24T11:45:00Z'), 'dd MMM yyyy, h:mm a'),
+      leaveTime: format(new Date('2024-09-24T12:15:00Z'), 'dd MMM yyyy, h:mm a'),
+    },
+    {
+      name: 'Mia Cooper',
+      email: 'miacooper@gmail.com',
+      joinTime: format(new Date('2024-09-24T12:30:00Z'), 'dd MMM yyyy, h:mm a'),
+      leaveTime: format(new Date('2024-09-24T13:00:00Z'), 'dd MMM yyyy, h:mm a'),
     },
   ];
-  
+
+export default queueHistory;

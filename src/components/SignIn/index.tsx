@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import InputField from '@/components/Form/Input';
 import Header from '@/components/Header';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/Provider/AuthContext';
+import { useAuth } from '@/components/Provider/AuthContext';
 import { Button } from '../Buttons';
+import Link from 'next/link';
 
 const Form: React.FC = () => {
   const { login } = useAuth();
@@ -61,16 +62,16 @@ const Form: React.FC = () => {
           <form onSubmit={handleSubmit}>
             {/* Heading Section */}
             <motion.div className="text-center mb-8" variants={itemVariants}>
-              <p className="text-gray-500 text-sm">
-                Don't have an account?{' '}
-                <a href="/signup" className="text-blue-500 font-semibold">
-                  Sign Up
-                </a>
-              </p>
-              <h1 className="text-3xl font-bold text-gray-900 mt-2">
-                Welcome Back
-              </h1>
-            </motion.div>
+            <p className="text-gray-500 text-sm">
+            Don&apos;t have an account?{' '}
+              <Link href="/signup" className="text-blue-500 font-semibold">
+                Sign Up
+              </Link>
+            </p>
+            <h1 className="text-3xl font-bold text-gray-900 mt-2">
+              Welcome Back
+            </h1>
+          </motion.div>
 
                {/* Display error message if login fails */}
                {error && (

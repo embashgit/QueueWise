@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { IButtonProps, buttonVariants } from "./interface";
-import Icon from "../Icon";
+import Icon, { IconName } from "../Icon";
 import { cn } from "../../../utils/cn";
 
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
@@ -57,7 +57,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
         {...props}
       >
         {lefticon && (
-          <Icon name={lefticon as any} size={Iconsize} alt='Button icon'></Icon>
+          <Icon name={lefticon as IconName} size={Iconsize} alt='Button icon'></Icon>
         )}
         {
           lefticon && (

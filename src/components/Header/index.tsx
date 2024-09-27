@@ -1,9 +1,10 @@
 import React from 'react';
-import Icon from '../Icon';
+import Icon, { IconName } from '../Icon';
 import { HeaderActions, navItems } from '../../../utils/constant';
 import { useRouter } from 'next/router';
 import CreateQueue from '../Queue/CreateQueue';
-import { useAuth } from '@/Provider/AuthContext';
+import { useAuth } from '@/components/Provider/AuthContext';
+import Link from 'next/link';
 
 
 interface HeaderProps {
@@ -58,38 +59,38 @@ const Header: React.FC<HeaderProps> = ({ type }) => {
 
         {/* Right-side Buttons */}
         <div className="flex gap-2">
-          {type === 'login' && (
-            <a
-              href="/signup"
-              className="flex items-center justify-center rounded-xl h-10 bg-transparent border text-blue-500 text-sm font-bold leading-normal px-4"
-            >
-              Sign Up
-            </a>
-          )}
-          {type === 'signup' && (
-            <a
-              href="/login"
-              className="flex items-center justify-center rounded-xl h-10  bg-transparent border text-blue-500 text-sm font-bold leading-normal px-4"
-            >
-              Log In
-            </a>
-          )}
-          {/* Optionally render HeaderActions for auth type */}
-          {type === 'auth' && (
-            <>
-              {HeaderActions.map(({ icon, name, url }, index) => (
-                <button
-                  key={index}
-                  onClick={()=>route.push(url)}
-                  className="flex items-center justify-center rounded-xl h-10 bg-[#e7eef4] text-[#0d151c] gap-2 text-sm font-bold leading-normal px-4"
-                >
-                  <Icon name={icon} alt={name} alt={icon} />
-                </button>
-              ))}
-             {user?.role ==='admin' && <CreateQueue/>}
-            </>
-          )}
-        </div>
+  {type === 'login' && (
+    <Link
+      href="/signup"
+      className="flex items-center justify-center rounded-xl h-10 bg-transparent border text-blue-500 text-sm font-bold leading-normal px-4"
+    >
+      Sign Up
+    </Link>
+  )}
+  {type === 'signup' && (
+    <Link
+      href="/login"
+      className="flex items-center justify-center rounded-xl h-10 bg-transparent border text-blue-500 text-sm font-bold leading-normal px-4"
+    >
+      Log In
+    </Link>
+  )}
+  {/* Optionally render HeaderActions for auth type */}
+  {type === 'auth' && (
+    <>
+      {HeaderActions.map(({ icon, name, url }, index) => (
+        <button
+          key={index}
+          onClick={() => route.push(url)}
+          className="flex items-center justify-center rounded-xl h-10 bg-[#e7eef4] text-[#0d151c] gap-2 text-sm font-bold leading-normal px-4"
+        >
+          <Icon name={icon as IconName} alt={name} />
+        </button>
+      ))}
+      {user?.role === 'admin' && <CreateQueue />}
+    </>
+  )}
+</div>
       </div>
     </header>
   );
