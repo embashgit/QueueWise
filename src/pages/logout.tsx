@@ -11,9 +11,9 @@ import { useRouter } from 'next/router';
 
   return (
    <div className='flex justify-center '>
-    laoding...
+    Loading...
    </div>
   )
 }
 
-export default Logout
+export default Logout;

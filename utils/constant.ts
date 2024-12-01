@@ -4,17 +4,6 @@ export const navItems= [
         url: '/',
         icon: 'dashboard'
     },
-
-    {
-        name: 'Leave Queue',
-        url: '/leave',
-        icon: 'plus'
-    },
-    {
-        name: 'Settings',
-        url: '/settings',
-        icon: 'settings'
-    },
     {
         name: 'Logout',
         url: '/signup',

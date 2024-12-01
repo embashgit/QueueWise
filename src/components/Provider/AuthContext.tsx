@@ -6,8 +6,7 @@ import  { jwtDecode, JwtPayload } from 'jwt-decode';
 import { AuthContextProps, QueueCreate, User, IError } from './interface';
 import Cookies from 'js-cookie';
 import { Queue } from '@/components/Queue/interface';
-import Modal from '@/components/Modal';
-import { Button } from '@/components/Buttons';
+
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
@@ -195,7 +194,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         queues }}
     >
       {children}
-      <Modal isOpen={!!requestError} onClose={handleCloseModal}>
+      {/* <Modal isOpen={!!requestError} onClose={handleCloseModal}>
         <div className='flex flex-col space-4 justify-center'>
         <h3 className='text-base font-semibold text-red-700 mb-3'>Error Occur!</h3>
         <p className='text-gray-700 mb-2'>
@@ -205,7 +204,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           Close
         </Button>
         </div>
-      </Modal>
+      </Modal> */}
     </AuthContext.Provider>
   );
 };
