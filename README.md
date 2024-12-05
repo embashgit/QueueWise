@@ -26,9 +26,10 @@ QueueWise leverages the following technologies to deliver a robust and scalable 
 Follow these steps to set up the repository locally:
 
 1. **Clone the Repository**  
-   ```bash
+   ```
    git clone https://github.com/embashgit/QueueWise.git
    cd QueueWise
+   ```
 2. **Install Dependencies**
 Make sure you have Node.js and npm/yarn installed. Run:
   ```
@@ -47,3 +48,8 @@ npm run dev
 # or
 yarn dev
 ```
+### Acknowledgments
+
+ **Special thanks to:**
+- [Myself](https://github.com/embashgit): Primary contributor and developer of QueueWise.
+- [Holger Klus]: For invaluable guidance, mentorship, and constructive feedback during the development process and Software engineering course in general.
