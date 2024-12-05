@@ -27,7 +27,7 @@ Follow these steps to set up the repository locally:
 
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/username/QueueWise.git
+   git clone https://github.com/embashgit/QueueWise.git
    cd QueueWise
 2. **Install Dependencies**
 Make sure you have Node.js and npm/yarn installed. Run:
