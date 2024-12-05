@@ -7,13 +7,7 @@ export interface User {
     role: string;
   }
 
-   interface UserData {
-    position: number;
-    name: string;
-    email: string;
-    joinTime: string;
-    avatarUrl: string;
-  }
+
 
   export interface QueueCreate {
     eventType:string;
@@ -22,7 +16,7 @@ export interface User {
   }
 
   interface IQueueUsersResponse {
-    users: UserData[];    // Assuming 'User' is already defined elsewhere
+    users: User[];    // Assuming 'User' is already defined elsewhere
     eventType: string;
   }
 
@@ -31,6 +25,7 @@ export interface User {
     joinedQueues:Queue[];
     queues: Queue[] | [];
     fetchQueues:()=> void;
+    callNextWaiter:(userId:string,queueId:string)=>Promise<any>;
     fetchQueueUsers:(id:string)=>Promise<IQueueUsersResponse>;
     leaveQueue:(id:string)=>void;
     joinQueue:(id:string)=>void;

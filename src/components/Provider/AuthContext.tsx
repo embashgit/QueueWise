@@ -93,6 +93,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const callNextWaiter = async (id:string, queueId:string) => {
+    try {
+    const res = await apiClient.put(`/queues/${queueId}/call`, {
+      userId:id,
+    });  
+     return res.data;
+    } catch (error) {
+      const errorMessage  = (error as IError).response.data.message || 'Unable to fetch Joined Queue';
+      setRequestError(errorMessage);
+      console.error('Failed to fetch queues:', error);
+    }
+  };
+
   const fetchQueueUsers = async (qId:string) => {
     try {
     const res = await apiClient.get(`/queues/${qId}/users`);  
@@ -186,6 +199,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user, 
         fetchQueues, 
         createQueue, 
+        callNextWaiter,
         fetchQueueUsers,
         isAuthenticated: !!user, 
         signup, 

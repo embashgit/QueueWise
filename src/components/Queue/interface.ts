@@ -22,6 +22,7 @@ export interface UserCardProps {
 export interface User {
   position: number;
   name: string;
+  id:string;
   email: string;
   joinTime: string;
   avatarUrl: string;
