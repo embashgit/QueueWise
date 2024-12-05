@@ -37,12 +37,19 @@ Make sure you have Node.js and npm/yarn installed. Run:
   # or
   yarn install
   ```
-3. **Setup environment**
+3. **Running Test**
+Make sure you have Node.js and npm/yarn installed. Run:
+  ```
+  npm run test
+  # or
+  yarn test
+  ```
+4. **Setup environment**
 Create a .env file in the root directory and provide the following variables:
   ```
   NEXT_PUBLIC_API_BASE_URL=http://localhost:5000/api/v1
   ```
-4. **Start the Development Server**
+5. **Start the Development Server**
 ```
 npm run dev
 # or
@@ -51,5 +58,5 @@ yarn dev
 ### Acknowledgments
 
  **Special thanks to:**
-- [Myself](https://github.com/embashgit): Primary contributor and developer of QueueWise.
+- [Ibrahim Muhammad Bashir](https://github.com/embashgit): Primary contributor and developer of QueueWise.
 - [Holger Klus]: For invaluable guidance, mentorship, and constructive feedback during the development process and Software engineering course in general.
